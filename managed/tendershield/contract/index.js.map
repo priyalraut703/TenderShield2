@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "index.js",
+  "sourceRoot": "../../../",
+  "sources": ["contracts/tendershield.compact", "compiler/standard-library.compact"],
+  "names": [],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAoDA;;;;;;;;;;MAMA,AAAA,iBAkBC;;;;;cAjBC,UAAmB;cACnB,gBAAwB;cACxB,SAAkB;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;yCAFlB,UAAmB,+BACnB,gBAAwB,+BACxB,SAAkB;;;;;;;;;mDAFlB,UAAmB;mDACnB,gBAAwB;mDACxB,SAAkB;;;OAenB;MAED,AAAA,WAGC;;;;;;;;;;;;;;;;;;;;;;OAAA;;;;;;;;;;GAzBA;EAJD;;;;;UAAY,IAAa;UAAE,WAAmB;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAR9C;;;;;;;;;yEAAkC;IAElC;;;;;;;;;yEAAmC;IAEnC;;;;;;;;;yEAAoC;IAEpC;;;;;;;;;yEAA4C;IAG1C;;;;;;;2HAAoB,IAAE;;yEAAd;IACR;;;;;;;2HAAuB,WAAS;;yEAArB;IACX;;;;;;;;;yEAAM;;;;;;;GACP;ECxDD,AAAA,oBAAA,SAAA;;uDAAA;uDAAA;;;ED0DA,AAAA,oBAkBC;;uBAjBC,UAAmB;uBACnB,gBAAwB;uBACxB,SAAkB;;oDAEX;;;;;;;;;;;yHAAM;;;;4BAEX,gBAAc;;oDAAI;;;;;;;;;;;yHAAW;;UAM/B,KAAkB,6BACf,UAAQ;;iFAAE,gBAAc;;2CACzB,SAAO;IAFT;;;;;;;2HAAA,KAAkB;;yEAAA;IAIlB;;;;;;;;;yEAAM;;GACP;EAED,AAAA,cAGC;oDAFQ;;;;;;;;;;;yHAAM;;;;IACb;;;;;;;;;yEAAM;;GACP;;;;;;;;;;;;;;;;IArCD;qCAAA;;;;;;;;;;;0GAAkC;KAAA;IAElC;qCAAA;;;;;;;;;;;0GAAmC;KAAA;IAEnC;qCAAA;;;;;;;;;;;0GAAoC;KAAA;IAEpC;qCAAA;;;;;;;;;;;0GAA4C;KAAA;;;;;;;;;;"
+}
