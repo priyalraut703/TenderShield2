@@ -1,0 +1,57 @@
+{
+  "name": "tendershield",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "TenderShield - privacy-preserving procurement & bidding (Level 1: eligibility-proof core)",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "compile": "compact compile contracts/tendershield.compact managed/tendershield",
+    "compile:windows": "wsl -d Ubuntu bash scripts/compile-wsl.sh",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules vitest run",
+    "test:local": "cross-env MIDNIGHT_NETWORK=local NODE_OPTIONS=--experimental-vm-modules vitest run",
+    "test:preview": "cross-env MIDNIGHT_NETWORK=preview NODE_OPTIONS=--experimental-vm-modules vitest run",
+    "test:preprod": "cross-env MIDNIGHT_NETWORK=preprod NODE_OPTIONS=--experimental-vm-modules vitest run",
+    "deploy:preview": "cross-env MIDNIGHT_NETWORK=preview NODE_OPTIONS=--experimental-vm-modules vitest run tests/deploy.test.ts --reporter=verbose",
+    "deploy:preprod": "cross-env MIDNIGHT_NETWORK=preprod NODE_OPTIONS=--experimental-vm-modules vitest run tests/deploy.test.ts --reporter=verbose",
+    "env:up": "docker compose up -d --wait",
+    "env:down": "docker compose down",
+    "proof:up": "docker compose up -d --wait proof-server",
+    "proof:down": "docker compose stop proof-server",
+    "validate": "npm run env:up && npm run test:local; npm run env:down"
+  },
+  "dependencies": {
+    "@midnight-ntwrk/compact-runtime": "0.16.0",
+    "@midnight-ntwrk/midnight-js-contracts": "4.1.1",
+    "@midnight-ntwrk/midnight-js-http-client-proof-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-level-private-state-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-network-id": "4.1.1",
+    "@midnight-ntwrk/midnight-js-node-zk-config-provider": "4.1.1",
+    "@midnight-ntwrk/midnight-js-protocol": "4.1.1",
+    "@midnight-ntwrk/midnight-js-types": "4.1.1",
+    "@midnight-ntwrk/midnight-js-utils": "4.1.1",
+    "@midnight-ntwrk/testkit-js": "4.1.1",
+    "@midnight-ntwrk/wallet-sdk": "1.2.0",
+    "axios": "^1.15.0",
+    "pino": "^9.0.0",
+    "pino-pretty": "^13.0.0",
+    "rxjs": "^7.8.2",
+    "testcontainers": "^11.13.0",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.9",
+    "cross-env": "^7.0.3",
+    "typescript": "^5.7.0",
+    "vite-node": "^6.0.0",
+    "vitest": "^4.1.0"
+  },
+  "overrides": {
+    "@midnight-ntwrk/wallet-sdk": "1.2.0"
+  },
+  "packageManager": "yarn@1.22.22"
+}
