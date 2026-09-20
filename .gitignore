@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+*.log
+*.tsbuildinfo
+midnight-level-db/
+
+# Secrets — never commit wallet seeds/mnemonics.
+.env
+.env.*
+!.env.preview.example
+!.env.preprod.example
+
+.DS_Store
+Thumbs.db
