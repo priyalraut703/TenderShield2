@@ -1,0 +1,82 @@
+// ============================================================================
+// TenderShield — Level 1 (privacy-core prototype)
+//
+// A privacy-preserving procurement & bidding contract.
+//
+// PRIVACY MODEL
+// ----------------------------------------------------------------------------
+// This Level 1 contract models a procurement tender with an eligibility gate:
+// the contract publishes only what the whole market is allowed to see, and
+// keeps every vendor-specific value hidden inside the zero-knowledge circuit.
+//
+// PUBLIC (on-chain, verifiable by everyone):
+//   - tenderId      : the tender's public identifier.
+//   - status        : OPEN -> AWARDED (an eligible bid sealed the slot,
+//                     or CLOSED if the owner closed bidding early).
+//   - minTurnover   : the eligibility threshold copied from the public tender
+//                     documentation. It is public on purpose: eligibility
+//                     rules are open, bids/credentials are not.
+//   - turnoverCommitment : a cryptographic commitment to the winning vendor's
+//                     annual turnover value. It proves "a value was committed"
+//                     yet hides the value itself.
+//
+// PRIVATE (never written to the ledger, kept in the circuit):
+//   - vendorId              : the vendor's identity (canonical id/registration).
+//   - annualTurnover        : the vendor's actual financial figure.
+//   - opening               : the commitment opening (a random nonce).
+//
+// PROVED WITHOUT REVEALING
+//   - the circuit asserts  annualTurnover >= minTurnover  inside the zero-
+//     knowledge proof. Anyone can verify the STATE TRANSITION, but nobody can
+//     learn annualTurnover from the commitment already on chain.
+//
+// Compiler: compact 0.31.1 (language 0.23.0, runtime 0.16.0)
+// ============================================================================
+pragma language_version 0.23.0;
+
+import CompactStandardLibrary;
+
+export enum TenderStatus {
+  OPEN,
+  CLOSED,
+  AWARDED
+}
+
+export ledger tenderId: Bytes<32>;
+
+export ledger status: TenderStatus;
+
+export ledger minTurnover: Uint<64>;
+
+export ledger turnoverCommitment: Bytes<32>;
+
+constructor(id: Bytes<32>, threshold: Uint<64>) {
+  tenderId = disclose(id);
+  minTurnover = disclose(threshold);
+  status = TenderStatus.OPEN;
+}
+
+export circuit submitEligibleBid(
+  vendorId: Bytes<32>,
+  annualTurnover: Uint<64>,
+  opening: Bytes<32>
+): [] {
+  assert(status == TenderStatus.OPEN, "Tender is not open for bids");
+  assert(
+    annualTurnover >= minTurnover,
+    "Vendor does not meet the minimum annual turnover eligibility requirement"
+  );
+  // Bind the vendor's identity and the (hidden) turnover value into a single
+  // commitment. `persistentCommit` protects its inputs from disclosure, so no
+  // `disclose` is required; only the commitment reaches the ledger.
+  turnoverCommitment = persistentCommit<Vector<2, Bytes<32>>>(
+    [vendorId, annualTurnover as Bytes<32>],
+    opening
+  );
+  status = TenderStatus.AWARDED;
+}
+
+export circuit closeTender(): [] {
+  assert(status == TenderStatus.OPEN, "Only open tenders can be closed");
+  status = TenderStatus.CLOSED;
+}
